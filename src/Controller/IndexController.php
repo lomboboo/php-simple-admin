@@ -8,9 +8,14 @@ class IndexController extends BasicController {
 	}
 
 	public function index(){
+		$this->database->query('SELECT * FROM users WHERE name = :name');
+		$this->database->bind(':name', 'lomboboo');
+		$row = $this->database->single();
 		echo $this->twig->render('index.html.twig', [
-			"page_name" => "Index"
+			"page_name" => "Index",
+			"user" => $row
 		]);
+
 	}
 
 }
