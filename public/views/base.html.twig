@@ -5,12 +5,23 @@
 	<meta name="viewport"
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Index page</title>
+	<title>Simple admin: {% block title %}{% endblock %}</title>
+	{% block stylesheets %}
+		<link rel="stylesheet" href="{{ assets('libs/css/bootstrap.min.css') }}">
+	{% endblock %}
 </head>
 <body>
 
-{% block page %}
-	{{ "Default page" }}
+<div class="container">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+{% block scripts %}
+	<script src="{{ assets('libs/js/jquery-3.2.1.min.js') }}"></script>
+	<script src="{{ assets('libs/js/popper.min.js') }}"></script>
+	<script src="{{ assets('libs/js/bootstrap.min.js') }}"></script>
 {% endblock %}
 </body>
 </html>

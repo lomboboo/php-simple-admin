@@ -26,6 +26,7 @@ class Application {
 
 		define("DS", DIRECTORY_SEPARATOR);
 		define('BASE_URI', getcwd() . DS);
+		define('ASSETS', BASE_URL . 'public' . DS );
 
 		if (self::$debug) {
 			ini_set('display_errors', 1);

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
-
-{% block page %}
-    <h1>{{ page_name }}</h1>
-
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
     <p>{{ user.name }} : {{ user.password }}</p>
 {% endblock %}
