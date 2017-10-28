@@ -1,0 +1,10 @@
+{
+  "autoload": {
+    "psr-4": {
+      "SimpleAdmin\\": "src/"
+    }
+  },
+  "require": {
+    "twig/twig": "~2.0"
+  }
+}
