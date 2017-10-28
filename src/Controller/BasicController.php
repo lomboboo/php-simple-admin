@@ -6,6 +6,10 @@ use Twig_Loader_Filesystem;
 use Twig_Environment;
 
 class BasicController {
+	/**
+	 * The Query to run against the FileSystem
+	 * @var Twig_Environment
+	 */
 	public $twig;
 	public $database;
 
