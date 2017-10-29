@@ -2,9 +2,6 @@
 namespace SimpleAdmin\Controller;
 use Application;
 use SimpleAdmin\Service\Database;
-use Twig_Extension_Debug;
-use Twig_Function;
-use Twig_Loader_Filesystem;
 use Twig_Environment;
 
 class BasicController {
@@ -24,13 +21,18 @@ class BasicController {
 		$this->database = Database::getInstance();
 		$this->twig = Application::$twig;
 		$this->router = Application::$router;
+		$login = new LoginController();
+		if ( !$login->authenticate() ){
+			$login_url = $this->router->generate('login');
+			$this->redirect($login_url);
+		}
 	}
 
 	function redirect($url, $permanent = false) {
 		if($permanent) {
 			header('HTTP/1.1 301 Moved Permanently');
 		}
-		header('Location: '. BASE_URL . $url);
+		header('Location: ' . $url);
 		exit();
 	}
 

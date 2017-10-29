@@ -15,6 +15,8 @@ class Application {
 	public static $twig;
 
 	public static function bootstrap() {
+		session_start();
+		session_regenerate_id();
 
 		self::init();
 
@@ -65,7 +67,7 @@ class Application {
 		$generate_url_function = new Twig_Function('generate_url', function ($url_name) {
 			return self::$router->generate($url_name);
 		});
-
+		self::$twig->addGlobal('session', $_SESSION);
 		self::$twig->addFunction($assets_function);
 		self::$twig->addFunction($generate_url_function);
 	}
@@ -74,8 +76,11 @@ class Application {
 	private static function dispatch() {
 		self::$router = new AltoRouter();
 		self::$router->setBasePath('/php_simple_admin');
-		self::$router->map('GET', '/', 'SimpleAdmin\Controller\IndexController#index');
+
+		self::$router->map('GET', '/', 'SimpleAdmin\Controller\IndexController#index', 'index');
 		self::$router->map('GET', '/dashboard', 'SimpleAdmin\Controller\IndexController#dashboard', 'dashboard');
+		self::$router->map('GET|POST', '/login', 'SimpleAdmin\Controller\LoginController#login', 'login');
+		self::$router->map('GET', '/logout', 'SimpleAdmin\Controller\LoginController#logout', 'logout');
 
 		$match = self::$router->match();
 		self::handle_controller_action($match);
