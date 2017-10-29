@@ -3,3 +3,4 @@ vendor
 cache
 node_modules
 uploads
+public/css/*
