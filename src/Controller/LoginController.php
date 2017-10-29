@@ -14,6 +14,7 @@ class LoginController {
 	}
 
 	public function login(){
+		$error = null;
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if ( isset($_POST['username']) && isset($_POST['password']) ){
 
@@ -31,12 +32,13 @@ class LoginController {
 					$index_url = $this->router->generate('index');
 					$this->redirect($index_url);
 				} else {
-					echo Application::$twig->render('login.html.twig', ['error'=>"Wrong credentials"]);
+					$error = "Wrong credentials";
 				}
 			}
-		} else {
-			echo Application::$twig->render('login.html.twig');
 		}
+		echo Application::$twig->render('login.html.twig', [
+			"error" => $error
+		]);
 	}
 
 	public function authenticate(){
