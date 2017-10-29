@@ -1,0 +1,43 @@
+{
+  "name": "php_simple_admin",
+  "version": "1.0.0",
+  "description": "PHP based simple admin panel",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "4.0.0-beta.2",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "pace-progress": "^1.0.2",
+    "popper.js": "^1.12.5",
+    "simple-line-icons": "^2.4.1"
+  },
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-contains": "^1.1.0",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-filter": "^5.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0",
+    "require-dir": "^0.3.2",
+    "run-sequence": "^2.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lomboboo/php-simple-admin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lomboboo/php-simple-admin/issues"
+  },
+  "homepage": "https://github.com/lomboboo/php-simple-admin#readme"
+}
