@@ -3,10 +3,22 @@
 class Application {
 	private static $contact_email = 'lomboboo@gmail.com';
 	private static $debug = true;
+	/**
+	 * The Query to run against the FileSystem
+	 * @var \AltoRouter
+	 */
+	public static $router;
+	/**
+	 * The Query to run against the FileSystem
+	 * @var Twig_Environment
+	 */
+	public static $twig;
 
 	public static function bootstrap() {
 
 		self::init();
+
+		self::twig();
 
 		self::error_handler();
 
@@ -35,13 +47,37 @@ class Application {
 		}
 	}
 
+	private static function twig() {
+		$loader = new Twig_Loader_Filesystem(BASE_URI . "public/views");
+		$loader->addPath(BASE_URI . 'public', 'public');
+
+		self::$twig = new Twig_Environment($loader, ['debug' => true]);
+		self::$twig->addExtension(new Twig_Extension_Debug());
+
+		self::twig_extensions();
+	}
+
+	private static function twig_extensions(){
+		$assets_function = new Twig_Function('assets', function ($file) {
+			return ASSETS . $file;
+		});
+
+		$generate_url_function = new Twig_Function('generate_url', function ($url_name) {
+			return self::$router->generate($url_name);
+		});
+
+		self::$twig->addFunction($assets_function);
+		self::$twig->addFunction($generate_url_function);
+	}
+
+
 	private static function dispatch() {
-		$router = new AltoRouter();
-		$router->setBasePath('/php_simple_admin');
-		$router->map('GET', '/', 'SimpleAdmin\Controller\IndexController#index');
+		self::$router = new AltoRouter();
+		self::$router->setBasePath('/php_simple_admin');
+		self::$router->map('GET', '/', 'SimpleAdmin\Controller\IndexController#index');
+		self::$router->map('GET', '/dashboard', 'SimpleAdmin\Controller\IndexController#dashboard', 'dashboard');
 
-		$match = $router->match();
-
+		$match = self::$router->match();
 		self::handle_controller_action($match);
 	}
 

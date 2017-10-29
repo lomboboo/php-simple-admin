@@ -32,33 +32,7 @@
 </header>
 
 <div class="app-body">
-	<div class="sidebar">
-		<nav class="sidebar-nav">
-			<ul class="nav">
-				<li class="nav-item">
-					<a class="nav-link" href="index.html"><i class="icon-speedometer"></i> Dashboard</a>
-				</li>
-
-				<li class="nav-title">
-					Menu
-				</li>
-				<li class="nav-item nav-dropdown">
-					<a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i> Wpisy</a>
-					<ul class="nav-dropdown-items">
-						<li class="nav-item">
-							<a class="nav-link" href="components-buttons.html"><i class="icon-puzzle"></i> Dodaj nowy</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="components-social-buttons.html"><i class="icon-puzzle"></i> Lista</a>
-						</li>
-
-					</ul>
-				</li>
-				<li class="divider"></li>
-
-			</ul>
-		</nav>
-	</div>
+    {% include 'menu.html.twig' %}
 
 	<!-- Main content -->
 	<main class="main">

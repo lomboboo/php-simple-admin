@@ -1,5 +1,6 @@
 <?php
 namespace SimpleAdmin\Controller;
+use Application;
 use SimpleAdmin\Service\Database;
 use Twig_Extension_Debug;
 use Twig_Function;
@@ -13,22 +14,16 @@ class BasicController {
 	 */
 	public $twig;
 	public $database;
+	/**
+	 * The Query to run against the FileSystem
+	 * @var \AltoRouter
+	 */
+	public $router;
 
 	public function __construct() {
 		$this->database = Database::getInstance();
-		$this->init_twig();
-	}
-
-	private function init_twig() {
-		$loader = new Twig_Loader_Filesystem(BASE_URI . "public/views");
-		$loader->addPath(BASE_URI . 'public', 'public');
-		$this->twig = new Twig_Environment($loader, ['debug' => true]);
-		$this->twig->addExtension(new Twig_Extension_Debug());
-
-		$assets_function = new Twig_Function('assets', function ($file) {
-			return ASSETS . $file;
-		});
-		$this->twig->addFunction($assets_function);
+		$this->twig = Application::$twig;
+		$this->router = Application::$router;
 	}
 
 	function redirect($url, $permanent = false) {
