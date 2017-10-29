@@ -3,6 +3,9 @@ header {
   .navbar-nav {
     &.ml-auto {
       margin-right: 20px;
+      .username {
+        padding: 10px;
+      }
     }
   }
 }

@@ -68,6 +68,7 @@ class Application {
 			return self::$router->generate($url_name);
 		});
 		self::$twig->addGlobal('session', $_SESSION);
+//		self::$twig->addGlobal('current_username', $_SESSION['username']);
 		self::$twig->addFunction($assets_function);
 		self::$twig->addFunction($generate_url_function);
 	}
@@ -81,6 +82,7 @@ class Application {
 		self::$router->map('GET', '/dashboard', 'SimpleAdmin\Controller\IndexController#dashboard', 'dashboard');
 		self::$router->map('GET|POST', '/login', 'SimpleAdmin\Controller\LoginController#login', 'login');
 		self::$router->map('GET', '/logout', 'SimpleAdmin\Controller\LoginController#logout', 'logout');
+		self::$router->map('GET|POST', '/settings/password', 'SimpleAdmin\Controller\SettingsController#password', 'password');
 
 		$match = self::$router->match();
 		self::handle_controller_action($match);

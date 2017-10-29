@@ -11,6 +11,10 @@ class Database{
 
 	private static $instance;
 	private $dbh;
+	/**
+	 * The Query to run against the FileSystem
+	 * @var \PDOStatement
+	 */
 	private $stmt;
 
 	private function __construct() {

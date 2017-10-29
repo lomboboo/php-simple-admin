@@ -51,6 +51,10 @@ class LoginController {
 		exit();
 	}
 
+	function get_current_user(){
+		return $_SESSION['username'];
+	}
+
 	public function logout(){
 		unset($_SESSION['username']);
 		unset($_SESSION['authorized']);

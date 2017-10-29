@@ -21,8 +21,8 @@
 	</button>
 
 	<ul class="nav navbar-nav ml-auto offset-md-1">
-		<li class="nav-item dropdown">
-			<span>admin</span>
+		<li class="nav-item username">
+			<span>{{ session.username }}</span>
 		</li>
 		<li class="nav-item">
 			<a href="{{ generate_url('logout') }}" class="btn btn-outline-danger"><i class="fa fa-sign-out"></i>&nbsp; Wyloguj się</a>

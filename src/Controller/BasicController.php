@@ -16,6 +16,7 @@ class BasicController {
 	 * @var \AltoRouter
 	 */
 	public $router;
+	public $current_username;
 
 	public function __construct() {
 		$this->database = Database::getInstance();
@@ -26,6 +27,7 @@ class BasicController {
 			$login_url = $this->router->generate('login');
 			$this->redirect($login_url);
 		}
+		$this->current_username = $login->get_current_user();
 	}
 
 	function redirect($url, $permanent = false) {
