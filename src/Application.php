@@ -83,6 +83,7 @@ class Application {
 		self::$router->map('GET|POST', '/login', 'SimpleAdmin\Controller\LoginController#login', 'login');
 		self::$router->map('GET', '/logout', 'SimpleAdmin\Controller\LoginController#logout', 'logout');
 		self::$router->map('GET|POST', '/settings/password', 'SimpleAdmin\Controller\SettingsController#password', 'password');
+		self::$router->map('GET|POST', '/settings/upload/logo', 'SimpleAdmin\Controller\SettingsController#upload_logo', 'upload_logo');
 
 		$match = self::$router->match();
 		self::handle_controller_action($match);

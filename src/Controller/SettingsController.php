@@ -57,4 +57,10 @@ class SettingsController extends BasicController {
 		]);
 	}
 
+	function upload_logo(){
+		echo $this->twig->render('upload_logo.html.twig',[
+			'title' => "Upload logo"
+		]);
+	}
+
 }
