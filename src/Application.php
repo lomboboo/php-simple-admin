@@ -15,8 +15,7 @@ class Application {
 	public static $twig;
 
 	public static function bootstrap() {
-		session_start();
-		session_regenerate_id();
+
 
 		self::init();
 
@@ -30,7 +29,7 @@ class Application {
 
 
 	private static function init() {
-		define('BASE_URL', 'http://localhost/php_simple_admin/');
+		define('BASE_URL', 'http://localhost:8000/');
 
 		define('DB_TYPE', 'mysql');
 		define('DB_HOST', 'localhost');
@@ -67,7 +66,7 @@ class Application {
 		$generate_url_function = new Twig_Function('generate_url', function ($url_name) {
 			return self::$router->generate($url_name);
 		});
-		self::$twig->addGlobal('session', $_SESSION);
+		self::$twig->addGlobal('session', isset($_SESSION) ? $_SESSION : null);
 //		self::$twig->addGlobal('current_username', $_SESSION['username']);
 		self::$twig->addFunction($assets_function);
 		self::$twig->addFunction($generate_url_function);
@@ -76,7 +75,6 @@ class Application {
 
 	private static function dispatch() {
 		self::$router = new AltoRouter();
-		self::$router->setBasePath('/php_simple_admin');
 
 		self::$router->map('GET', '/', 'SimpleAdmin\Controller\IndexController#index', 'index');
 		self::$router->map('GET', '/dashboard', 'SimpleAdmin\Controller\IndexController#dashboard', 'dashboard');
@@ -99,18 +97,16 @@ class Application {
 
 		} else if ($match['target']==''){
 			echo 'Error: no route was matched';
-
 		} else {
 			echo 'Error: can not call '.$controller.'#'.$action;
-
 		}
 	}
 
-	private static function error_handler(){
+	public static function error_handler(){
 		set_error_handler(['Application', 'my_error_handler']);
 	}
 
-	private static function my_error_handler($e_number, $e_message, $e_file, $e_line, $e_vars) {
+	public static function my_error_handler($e_number, $e_message, $e_file, $e_line, $e_vars) {
 
 		$message = "An error occurred in script '$e_file' on line $e_line: $e_message";
 

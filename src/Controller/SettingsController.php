@@ -1,17 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lomboboo
- * Date: 29.10.17
- * Time: 18:52
- */
-
 namespace SimpleAdmin\Controller;
 
+use SimpleAdmin\Model\UserModel;
+use upload;
 
 class SettingsController extends BasicController {
+	private $user;
 	function __construct() {
 		parent::__construct();
+		$this->user = new UserModel();
 	}
 
 	function password(){
@@ -26,19 +23,13 @@ class SettingsController extends BasicController {
 					$error = "New and repeated passwords does not match.";
 				} else {
 					$username = $this->current_username;
-					$this->database->query("SELECT id, username, password FROM users WHERE username=:username AND password=:password");
-					$this->database->bind('username', $username);
-					$this->database->bind('password', sha1($password));
-					$user = $this->database->single();
+					$user = $this->user->get_user($username, $password);
 
 					if ( !empty($user) ) {
-						$this->database->query("UPDATE users SET password=:password WHERE id=:id");
-						$this->database->bind('password', sha1($new_password));
-						$this->database->bind('id', $user['id']);
-						$this->database->execute();
-						$rows = $this->database->rowCount();
 
-						if ( $rows > 0 ){
+						$res = $this->user->update_password($new_password, $user['id']);
+
+						if ( $res ){
 							$success = "Password was successfully changed.";
 						} else {
 							$error = "Database update error";
@@ -58,6 +49,23 @@ class SettingsController extends BasicController {
 	}
 
 	function upload_logo(){
+		$error = null;
+		if ( $_SERVER['REQUEST_METHOD'] === 'POST' ){
+			if ( isset($_FILES['logo_file']) ){
+				$handle = new upload($_FILES['logo_file']);
+				if ($handle->uploaded) {
+					$handle->file_new_name_body   = 'image_resized';
+					//TODO: database handle
+					$handle->process(BASE_URI . 'public/uploads/logo/');
+					if ($handle->processed) {
+						echo 'image resized';
+						$handle->clean();
+					} else {
+						echo 'error : ' . $handle->error;
+					}
+				}
+			}
+		}
 		echo $this->twig->render('upload_logo.html.twig',[
 			'title' => "Upload logo"
 		]);

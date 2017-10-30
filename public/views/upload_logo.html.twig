@@ -7,7 +7,7 @@
 {% block content %}
 <form action="{{ generate_url('upload_logo') }}" method="post" enctype="multipart/form-data">
     Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="file" name="logo_file" id="logo_file">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
 </form>
 {% endblock %}

@@ -19,6 +19,7 @@ class BasicController {
 	public $current_username;
 
 	public function __construct() {
+
 		$this->database = Database::getInstance();
 		$this->twig = Application::$twig;
 		$this->router = Application::$router;
