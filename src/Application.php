@@ -76,12 +76,7 @@ class Application {
 	private static function dispatch() {
 		self::$router = new AltoRouter();
 
-		self::$router->map('GET', '/', 'SimpleAdmin\Controller\IndexController#index', 'index');
-		self::$router->map('GET', '/dashboard', 'SimpleAdmin\Controller\IndexController#dashboard', 'dashboard');
-		self::$router->map('GET|POST', '/login', 'SimpleAdmin\Controller\LoginController#login', 'login');
-		self::$router->map('GET', '/logout', 'SimpleAdmin\Controller\LoginController#logout', 'logout');
-		self::$router->map('GET|POST', '/settings/password', 'SimpleAdmin\Controller\SettingsController#password', 'password');
-		self::$router->map('GET|POST', '/settings/upload/logo', 'SimpleAdmin\Controller\SettingsController#upload_logo', 'upload_logo');
+		self::set_routes();
 
 		$match = self::$router->match();
 		self::handle_controller_action($match);
@@ -102,6 +97,15 @@ class Application {
 		}
 	}
 
+	private static function set_routes(){
+		self::$router->map('GET', '/', 'SimpleAdmin\Controller\IndexController#index', 'index');
+		self::$router->map('GET', '/dashboard', 'SimpleAdmin\Controller\IndexController#dashboard', 'dashboard');
+		self::$router->map('GET|POST', '/login', 'SimpleAdmin\Controller\LoginController#login', 'login');
+		self::$router->map('GET', '/logout', 'SimpleAdmin\Controller\LoginController#logout', 'logout');
+		self::$router->map('GET|POST', '/settings/password', 'SimpleAdmin\Controller\SettingsController#password', 'password');
+		self::$router->map('GET|POST', '/settings/upload/logo', 'SimpleAdmin\Controller\SettingsController#upload_logo', 'upload_logo');
+	}
+
 	public static function error_handler(){
 		set_error_handler(['Application', 'my_error_handler']);
 	}
@@ -113,13 +117,14 @@ class Application {
 		$message .= print_r($e_vars, 1);
 
 		if (self::$debug) { // Show the error.
-
-			echo '<div class="error">' . $message . '</div>';
-			debug_print_backtrace();
+			//error_log ($message, 0);
+			throw new \ErrorException($e_message, 0, $e_number, $e_file, $e_line);
 
 		} else {
-
-			error_log ($message, 1, self::$contact_email); // Send email.
+			$headers = "From: admin@localhost.com";
+			$headers .= "MIME-Version: 1.0";
+			$headers .= "Content-Type: text/html; charset=ISO-8859-1";
+			$res = error_log($message, 1, self::$contact_email, $headers); // Send email.
 
 			// Only print an error message if the error isn't a notice or strict.
 			if ( ($e_number != E_NOTICE) && ($e_number < 2048)) {
