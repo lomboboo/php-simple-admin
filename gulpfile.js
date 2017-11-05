@@ -14,26 +14,26 @@ gulp.task('clean:css', function () {
 });
 
 gulp.task('sass:dev', function() {
-	return gulp.src('./scss/style.scss')
+	return gulp.src('./public/scss/style.scss')
 		.pipe(sourcemaps.init())
 		.pipe(sass())
 		.pipe(autoprefixer())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./css'))
+		.pipe(gulp.dest('./public/css'))
 		;
 });
 gulp.task('sass:prod', function() {
-	return gulp.src('./scss/style.scss')
+	return gulp.src('./public/scss/style.scss')
 		.pipe(sass())
 		.pipe(autoprefixer())
-		.pipe(gulp.dest('./css'))
+		.pipe(gulp.dest('./public/css'))
 		.pipe(cssmin())
-		.pipe(gulp.dest('./css'))
+		.pipe(gulp.dest('./public/css'))
 		;
 });
 
 gulp.task('sass:watch', function() {
-	gulp.watch('./scss/**/*.scss', ['sass:dev']);
+	gulp.watch('./public/scss/**/*.scss', ['sass:dev']);
 });
 
 gulp.task('default', ['clean:css','sass:dev','sass:watch']);

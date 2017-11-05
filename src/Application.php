@@ -62,6 +62,9 @@ class Application {
 		$assets_function = new Twig_Function('assets', function ($file) {
 			return ASSETS . $file;
 		});
+		$base_function = new Twig_Function('base', function ($file) {
+			return BASE_URL . $file;
+		});
 
 		$generate_url_function = new Twig_Function('generate_url', function ($url_name) {
 			return self::$router->generate($url_name);
@@ -69,6 +72,7 @@ class Application {
 		self::$twig->addGlobal('session', isset($_SESSION) ? $_SESSION : null);
 //		self::$twig->addGlobal('current_username', $_SESSION['username']);
 		self::$twig->addFunction($assets_function);
+		self::$twig->addFunction($base_function);
 		self::$twig->addFunction($generate_url_function);
 	}
 
