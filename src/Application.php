@@ -14,8 +14,32 @@ class Application {
 	 */
 	public static $twig;
 
-	public static function bootstrap() {
+	private static function pathUrl($dir = __DIR__){
 
+		$root = "";
+		$dir = str_replace('\\', '/', realpath($dir));
+
+		//HTTPS or HTTP
+		$root .= !empty($_SERVER['HTTPS']) ? 'https' : 'http';
+
+		//HOST
+		$root .= '://' . $_SERVER['HTTP_HOST'];
+
+		//ALIAS
+		if(!empty($_SERVER['CONTEXT_PREFIX'])) {
+			$root .= $_SERVER['CONTEXT_PREFIX'];
+			$root .= substr($dir, strlen($_SERVER[ 'CONTEXT_DOCUMENT_ROOT' ]));
+		} else {
+			$root .= substr($dir, strlen($_SERVER[ 'DOCUMENT_ROOT' ]));
+		}
+
+		$root .= '/';
+
+		return $root;
+	}
+
+
+	public static function bootstrap() {
 
 		self::init();
 
@@ -29,7 +53,7 @@ class Application {
 
 
 	private static function init() {
-		define('BASE_URL', 'http://localhost:8000/');
+		define('BASE_URL', self::pathUrl(__DIR__ . '/../'));
 
 		define('DB_TYPE', 'mysql');
 		define('DB_HOST', 'localhost');
@@ -65,12 +89,11 @@ class Application {
 		$base_function = new Twig_Function('base', function ($file) {
 			return BASE_URL . $file;
 		});
-
 		$generate_url_function = new Twig_Function('generate_url', function ($url_name) {
 			return self::$router->generate($url_name);
 		});
+
 		self::$twig->addGlobal('session', isset($_SESSION) ? $_SESSION : null);
-//		self::$twig->addGlobal('current_username', $_SESSION['username']);
 		self::$twig->addFunction($assets_function);
 		self::$twig->addFunction($base_function);
 		self::$twig->addFunction($generate_url_function);
@@ -79,6 +102,10 @@ class Application {
 
 	private static function dispatch() {
 		self::$router = new AltoRouter();
+		$url_path = preg_replace('/\/$/i', '', parse_url(BASE_URL, PHP_URL_PATH));
+		if ( $url_path && $url_path !== "/" ){
+			self::$router->setBasePath($url_path);
+		}
 
 		self::set_routes();
 

@@ -19,7 +19,8 @@ class BasicController {
 	public $current_username;
 
 	public function __construct() {
-
+		session_start();
+		session_regenerate_id();
 		$this->database = Database::getInstance();
 		$this->twig = Application::$twig;
 		$this->router = Application::$router;

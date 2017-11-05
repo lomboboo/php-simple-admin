@@ -20,13 +20,14 @@ class LoginController {
 		$error = null;
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if ( isset($_POST['username']) && isset($_POST['password']) ){
-
 				$username = $_POST['username'];
 				$password = $_POST['password'];
+
 				$user = $this->user->get_user($username, $password);
 
 				if ( !empty($user) ){
-
+					session_start();
+					session_regenerate_id();
 					$_SESSION['username'] = $username;
 					$_SESSION["authorized"] = true;
 
@@ -60,6 +61,8 @@ class LoginController {
 	}
 
 	public function logout(){
+		session_start();
+		session_regenerate_id();
 		if ( isset($_SESSION) ){
 			unset($_SESSION['username']);
 			unset($_SESSION['authorized']);
